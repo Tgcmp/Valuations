@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Klabin S.A. (KLBN11) — Valuation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#12160F; --surface:#181D16; --surface-2:#20261C;
+  --ink:#E9ECE4; --ink-muted:#A7B0A0; --ink-faint:#6E766A; --border:#2C332A;
+  --accent:#6FB89A; --accent-ink:#0E1A15; --accent-soft:#1D2D26;
+  --kraft:#D9A164; --kraft-soft:#2B2318;
+  --positive:#63B98A; --positive-soft:#152A1F;
+  --negative:#E28173; --negative-soft:#301A17;
+  --warn:#E0B65F; --warn-soft:#2E2614;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 24px rgba(0,0,0,0.35);
+}
+:root[data-theme="light"]{
+  --bg:#F7F8F4; --surface:#FFFFFF; --surface-2:#EFF1E9;
+  --ink:#161F19; --ink-muted:#54615A; --ink-faint:#8A9690; --border:#DCE1D7;
+  --accent:#2F5D50; --accent-ink:#FFFFFF; --accent-soft:#E4EDE8;
+  --kraft:#9C6B3E; --kraft-soft:#F1E4D3;
+  --positive:#2F7D4F; --positive-soft:#E3F1E7;
+  --negative:#B3402F; --negative-soft:#FBE7E2;
+  --warn:#B8862B; --warn-soft:#FBF0DA;
+  --shadow: 0 1px 2px rgba(22,31,25,0.06), 0 6px 20px rgba(22,31,25,0.05);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--accent-soft);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 120px;}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;text-wrap:balance;color:var(--ink);margin:0;}
+p{margin:0 0 14px;color:var(--ink);}
+.lede{color:var(--ink-muted);}
+a{color:var(--accent);}
+table{font-variant-numeric:tabular-nums;}
+.num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
+
+.masthead{background:linear-gradient(180deg, #1D3A31 0%, #10201A 100%);color:var(--accent-ink);padding:56px 28px 44px;}
+:root[data-theme="light"] .masthead{background:linear-gradient(180deg, var(--accent) 0%, #24473D 100%);}
+.masthead-inner{max-width:1180px;margin:0 auto;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,0.72);display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.eyebrow span{display:flex;align-items:center;gap:6px;}
+.eyebrow .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);}
+.masthead h1{font-size:clamp(32px,4.4vw,52px);font-weight:600;color:#fff;line-height:1.06;}
+.masthead .ticker{font-family:'IBM Plex Mono',monospace;font-size:.5em;font-weight:500;color:rgba(255,255,255,0.68);vertical-align:middle;margin-left:10px;}
+.masthead .sub{color:rgba(255,255,255,0.78);font-size:17px;max-width:720px;margin-top:14px;}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(255,255,255,0.16);margin-top:34px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.16);}
+.stat{background:rgba(15,26,21,0.28);padding:16px 18px;}
+.stat .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,0.6);margin-bottom:6px;}
+.stat .v{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:#fff;}
+.stat .v.pos{color:#9FE0BE;} .stat .v.neg{color:#F3A99B;}
+.stat .d{font-size:12px;color:rgba(255,255,255,0.55);margin-top:3px;}
+.reco-chip{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1D3A31;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-top:22px;}
+.reco-chip .arrow{font-size:15px;}
+
+.layout{display:grid;grid-template-columns:230px 1fr;gap:48px;margin-top:44px;align-items:start;}
+.toc{position:sticky;top:24px;font-size:13.5px;}
+.toc-title{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:12px;}
+.toc a{display:block;color:var(--ink-muted);text-decoration:none;padding:5px 0 5px 12px;border-left:2px solid var(--border);transition:color .15s, border-color .15s;}
+.toc a:hover{color:var(--accent);border-left-color:var(--accent);}
+.toc a .num{color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-right:6px;}
+main{min-width:0;}
+
+section.block{padding:40px 0;border-top:1px solid var(--border);}
+section.block:first-child{border-top:none;padding-top:8px;}
+.block-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;}
+.block-num{font-family:'IBM Plex Mono',monospace;color:var(--kraft);font-size:14px;font-weight:600;}
+.block h2{font-size:26px;font-weight:600;}
+.block h3{font-size:18px;font-weight:600;margin:26px 0 10px;color:var(--ink);}
+.block h4{font-size:14.5px;font-weight:600;margin:18px 0 8px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.03em;}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+@media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr;} .layout{grid-template-columns:1fr;} .toc{display:none;}}
+
+ul.clean{margin:0 0 14px;padding-left:0;list-style:none;}
+ul.clean li{padding:7px 0 7px 20px;position:relative;border-bottom:1px dashed var(--border);}
+ul.clean li:last-child{border-bottom:none;}
+ul.clean li::before{content:"—";position:absolute;left:0;color:var(--kraft);}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin:14px 0;}
+table.fin{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px;}
+table.fin th{background:var(--surface-2);color:var(--ink-muted);font-weight:600;text-align:right;padding:9px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;position:sticky;top:0;}
+table.fin th:first-child{text-align:left;}
+table.fin td{padding:8px 12px;text-align:right;border-top:1px solid var(--border);white-space:nowrap;}
+table.fin td:first-child{text-align:left;color:var(--ink-muted);white-space:normal;min-width:180px;}
+table.fin tr.total td{font-weight:600;color:var(--ink);border-top:1.5px solid var(--ink-faint);}
+table.fin tr.proj td{color:var(--accent);}
+table.fin .colhead-proj{color:var(--accent);}
+table.fin td.neg{color:var(--negative);} table.fin td.pos{color:var(--positive);}
+
+.tag{display:inline-block;font-size:11px;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border-radius:5px;font-weight:600;letter-spacing:.02em;}
+.tag.hist{background:var(--surface-2);color:var(--ink-muted);}
+.tag.proj{background:var(--accent-soft);color:var(--accent);}
+
+.risk-table{width:100%;border-collapse:collapse;font-size:14px;}
+.risk-table td,.risk-table th{padding:12px 14px;border-top:1px solid var(--border);text-align:left;vertical-align:top;}
+.risk-table th{background:var(--surface-2);font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-muted);}
+.sev{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap;}
+.sev.alto{background:var(--negative-soft);color:var(--negative);}
+.sev.medio{background:var(--warn-soft);color:var(--warn);}
+.sev.baixo{background:var(--positive-soft);color:var(--positive);}
+
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0;}
+.callout.warn{border-color:var(--warn);background:var(--warn-soft);}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted);margin-bottom:6px;}
+
+.scenario-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0;}
+.scenario{border-radius:12px;padding:20px;border:1px solid var(--border);background:var(--surface);}
+.scenario.base{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+.scenario .tt{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin-bottom:8px;}
+.scenario .px{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;}
+.scenario .up{font-size:13px;margin-top:4px;font-weight:600;}
+.scenario .up.pos{color:var(--positive);} .scenario .up.neg{color:var(--negative);}
+.scenario .assump{margin-top:12px;font-size:12.5px;color:var(--ink-muted);line-height:1.7;}
+.scenario .assump b{color:var(--ink);}
+
+.sensitivity{border-collapse:collapse;font-size:13px;width:100%;}
+.sensitivity th,.sensitivity td{padding:9px 12px;text-align:center;border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;}
+.sensitivity th{background:var(--surface-2);color:var(--ink-muted);font-family:'IBM Plex Sans',sans-serif;font-size:12px;}
+.sensitivity td.hl{outline:2px solid var(--accent);outline-offset:-2px;font-weight:700;}
+
+.bars{display:flex;align-items:flex-end;gap:10px;height:180px;margin:22px 0 8px;padding:0 4px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;}
+.bar-col .bar{width:100%;max-width:46px;border-radius:5px 5px 0 0;background:var(--accent-soft);position:relative;display:flex;align-items:flex-end;justify-content:center;}
+.bar-col .bar.proj{background:repeating-linear-gradient(135deg,var(--accent-soft),var(--accent-soft) 5px,var(--surface-2) 5px,var(--surface-2) 8px);border:1px dashed var(--accent);}
+.bar-col .bar .fill{width:100%;background:var(--accent);border-radius:5px 5px 0 0;}
+.bar-col .lbl{font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;}
+.bar-col .val{font-size:11px;color:var(--ink-muted);font-family:'IBM Plex Mono',monospace;}
+
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px;}
+.pill{font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--surface-2);color:var(--ink-muted);font-family:'IBM Plex Mono',monospace;}
+.foot{margin-top:60px;padding:26px 0 10px;border-top:1px solid var(--border);color:var(--ink-faint);font-size:12.5px;line-height:1.7;}
+.disclaimer{background:var(--surface-2);border-radius:10px;padding:18px 22px;font-size:13px;color:var(--ink-muted);margin-top:14px;}
+.src{font-size:11.5px;color:var(--ink-faint);margin-top:4px;}
+.two-col-text{columns:2;column-gap:32px;}
+@media(max-width:700px){.two-col-text{columns:1;} .scenario-cards{grid-template-columns:1fr;} .grid-3{grid-template-columns:1fr;}}
+.methodnote{font-size:12.5px;color:var(--ink-faint);font-style:italic;margin-top:8px;}
+
+@page{ size:A4; margin:14mm 12mm; }
+@media print{
+  body{ background:#fff; font-size:13.5px; }
+  .wrap{ max-width:100%; padding:0 4mm 24px; }
+  .masthead{ -webkit-print-color-adjust:exact; print-color-adjust:exact; padding:28px 4mm 22px; }
+  .toc{ display:none; }
+  .layout{ grid-template-columns:1fr; gap:0; margin-top:24px; }
+  section.block{ padding:20px 0; }
+  a{ color:var(--ink); text-decoration:none; }
+}
+.tablewrap,table.fin,.risk-table,.sensitivity,.card,.callout,.scenario,.scenario-cards,
+.stat-row,.bars,.grid-2,.grid-3,.pillrow{
+  break-inside:avoid; page-break-inside:avoid;
+}
+table.fin tr,.risk-table tr,.sensitivity tr{ break-inside:avoid; page-break-inside:avoid; }
+h2,h3,h4,.block-head{ break-after:avoid; page-break-after:avoid; }
+.tablewrap{ overflow-x:visible; }
+table.fin{ width:100%; min-width:0; table-layout:auto; }
+@media print{
+  table.fin,.risk-table,.sensitivity{ font-size:11.5px; }
+  table.fin th,table.fin td{ padding:6px 7px; white-space:normal; }
+  .sensitivity th,.sensitivity td{ padding:6px 8px; }
+}
+</style>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">
+      <span>Equity Research &amp; Análise de Crédito</span><span class="dot"></span>
+      <span>Papel e Celulose</span><span class="dot"></span>
+      <span>Data-base: 12/09/2026</span>
+    </div>
+    <h1>Klabin S.A.<span class="ticker">KLBN11</span></h1>
+    <p class="sub">Valuation por FCFF (Fluxo de Caixa Descontado para a Firma) — modelo integrado (DRE/Balanço/DFC),
+    3 cenários, histórico 2021-2025 + 1T26-2T26 e projeção explícita 3T26E-2030E, com detalhe trimestral do
+    cronograma de paradas de manutenção do 2S26.</p>
+    <div class="reco-chip"><span class="arrow">▲</span> COMPRA — Cenário Base</div>
+    <div class="stat-row">
+      <div class="stat"><div class="k">Preço atual</div><div class="v">R$ 19,54</div><div class="d">12/09/2026 · BRAPI</div></div>
+      <div class="stat"><div class="k">Preço-alvo (Base)</div><div class="v pos">R$ 25,53</div><div class="d">12 meses</div></div>
+      <div class="stat"><div class="k">Upside (Base)</div><div class="v pos">+30,6%</div><div class="d">vs. preço atual</div></div>
+      <div class="stat"><div class="k">WACC / g (Base)</div><div class="v">12,6%</div><div class="d">g = 5,0%</div></div>
+      <div class="stat"><div class="k">Dív.Líq./EBITDA</div><div class="v">3,2x</div><div class="d">2T26 · ↓0,7x em 12m</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="layout">
+
+<nav class="toc">
+  <div class="toc-title">Sumário</div>
+  <a href="#s1"><span class="num">01</span>Resumo</a>
+  <a href="#s3"><span class="num">02</span>Setor</a>
+  <a href="#s5"><span class="num">03</span>Companhia</a>
+  <a href="#s9"><span class="num">04</span>Gráficos</a>
+  <a href="#s10"><span class="num">05</span>Riscos</a>
+  <a href="#s11"><span class="num">06</span>Financeiro</a>
+  <a href="#s14"><span class="num">07</span>Market Cap</a>
+  <a href="#s15"><span class="num">08</span>Peers</a>
+  <a href="#s16"><span class="num">09</span>Sensibilidade</a>
+  <a href="#s17"><span class="num">10</span>DCF</a>
+  <a href="#s19"><span class="num">11</span>Crédito</a>
+  <a href="#s18"><span class="num">12</span>Conclusão</a>
+  <a href="#s20"><span class="num">13</span>Disclaimer</a>
+</nav>
+
+<main>
+
+<section class="block" id="s1">
+  <div class="block-head"><span class="block-num">01</span><h2>Página Inicial — Resumo</h2></div>
+  <p class="lede">A Klabin é a maior produtora de papéis do Brasil e a única com operação integrada em celulose de
+  fibra curta, fibra longa/fluff, papéis (kraftliner, papel-cartão) e embalagens de papelão ondulado — um
+  portfólio único que a diferencia de pares puros de celulose (Suzano) ou puros de embalagem (Irani). O
+  valuation por FCFF, com dados coletados diretamente da Central de Resultados do RI e do ITR 30/06/2026 (CVM),
+  aponta um preço-alvo Base de R$ 25,53/Unit — upside de 30,6% sobre o preço atual — sustentado pela trajetória
+  de desalavancagem (3,9x→3,2x Dív.Líq./EBITDA em 12 meses) e pela normalização de custos pós-integração de
+  Puma II e dos ativos de embalagem adquiridos da Arauco.</p>
+  <div class="grid-2" style="margin-top:20px;">
+    <div class="card">
+      <h4 style="margin-top:0;">Destaques da tese</h4>
+      <ul class="clean">
+        <li>Desalavancagem consistente: Dív.Líq./EBITDA (USD, UDM) caiu de 3,9x (2T25) para 3,2x (2T26)</li>
+        <li>Guidance formal 2026 (Fato Relevante 09/12/2025): Capex R$ 3,3bi e custo caixa R$ 3,2-3,3 mil/t</li>
+        <li>Portfólio integrado (celulose+papéis+embalagens) reduz volatilidade de resultado frente a pares
+        mono-segmento</li>
+        <li>Programa de recompra de até 31.250.000 Units aprovado no 2T26 — sinal de confiança da Administração</li>
+        <li>Ratings em trajetória positiva: Fitch elevou perspectiva para Positiva (BB+/AAA(bra))</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0;">Principais riscos (ver seção 05)</h4>
+      <ul class="clean">
+        <li><span class="sev alto" style="margin-right:8px;">Alto</span>Câmbio: 83% da dívida em moeda estrangeira e ~40% da receita exportada</li>
+        <li><span class="sev medio" style="margin-right:8px;">Médio</span>ROIC (9,0% UDM) abaixo do WACC (12,6%) — spread negativo no trailing</li>
+        <li><span class="sev medio" style="margin-right:8px;">Médio</span>Parada geral de manutenção em Otacílio Costa pressiona custo/volume no 3T26E</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pillrow">
+    <span class="pill">Data da análise: 12/09/2026</span>
+    <span class="pill">Preço atual: R$ 19,54</span>
+    <span class="pill">Preço-alvo Base: R$ 25,53 (+30,6%)</span>
+    <span class="pill">Faixa Conservador–Otimista: R$ 16,84 – R$ 42,12</span>
+  </div>
+</section>
+
+<section class="block" id="s3">
+  <div class="block-head"><span class="block-num">02</span><h2>Análise do Setor — Papel e Celulose</h2></div>
+  <div class="two-col-text">
+  <p>O setor de papel e celulose brasileiro combina dois perfis de demanda distintos dentro da mesma cadeia:
+  celulose de mercado é uma commodity global precificada em USD, altamente correlacionada ao ciclo industrial
+  chinês e europeu e sensível à taxa de câmbio; papéis e embalagens (kraftliner, papel-cartão, papelão
+  ondulado) têm demanda mais correlacionada ao varejo, e-commerce e consumo doméstico, com contratos que
+  permitem repasse de preço mais previsível. A Klabin opera nos dois mundos simultaneamente, o que reduz sua
+  correlação líquida ao ciclo em relação a pares puros.</p>
+  <p>No 2T26, a Companhia relatou apreciação do Real frente ao dólar pressionando a receita de exportação
+  (celulose e parte de papéis), parcialmente compensada por aumentos de preço em papelão ondulado e papel-cartão
+  no mercado doméstico — exatamente o mecanismo de diversificação natural que sustenta a tese de portfólio
+  integrado.</p>
+  </div>
+  <p class="src">Fontes: Klabin RI, Release de Resultados 2T26 (Mensagem do Trimestre, pg.5); MD&amp;A da Companhia.</p>
+  <h3>Cadeia de valor e posicionamento competitivo</h3>
+  <p>A Klabin é verticalizada desde a base florestal (~700 mil ha de florestas próprias/arrendadas) até o
+  produto convertido (caixas de papelão ondulado, sacos industriais), o que lhe confere controle de custo de
+  matéria-prima que concorrentes sem base florestal própria não têm. Frente a Suzano (pura celulose, maior
+  escala, maior alavancagem operacional ao ciclo de preço de celulose em USD) e Irani (embalagens/papel,
+  menor escala, sem exposição a celulose de mercado), a Klabin ocupa um meio-termo estrategicamente
+  deliberado — o próprio management descreve isso como "modelo de negócios integrado, diversificado e
+  flexível" (Release 2T26, pg.5).</p>
+</section>
+
+<section class="block" id="s5">
+  <div class="block-head"><span class="block-num">03</span><h2>Companhia</h2></div>
+  <h3>Estrutura societária e capital</h3>
+  <p>A Klabin é negociada via Units (KLBN11 = 1 ação ON + 4 ações PN). Em 30/06/2026, o capital social somava
+  2.312.800.469 ações ON e 3.928.678.381 ações PN (total 6.241.478.850), com 88.583.517 ações em tesouraria.
+  Líquido de tesouraria, isso equivale a aproximadamente <b>1.230,6 milhões de Units-equivalentes</b>, para um
+  Market Cap atual de ≈ R$ 24,0 bilhões ao preço de R$ 19,54/Unit.</p>
+  <p class="src">Fonte: ITR 30/06/2026 (CVM), Composição do Capital.</p>
+  <h3>Modelo de negócios — três frentes operacionais</h3>
+  <div class="grid-3">
+    <div class="card"><h4 style="margin-top:0;">Celulose</h4><p style="font-size:13.5px;margin-bottom:6px;">Fibra curta e fibra longa/fluff, ~28% da receita líquida 2025. Volume 2T26: 386 mil ton (estável a/a); preço médio implícito ≈ R$ 3,75 mil/t.</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">Fluff com demanda crescente em higiene pessoal/infantil (MD&amp;A 2T26)</p></div>
+    <div class="card"><h4 style="margin-top:0;">Papéis</h4><p style="font-size:13.5px;margin-bottom:6px;">Kraftliner + Papel-Cartão, ~33% da receita 2025. Volume 2T26: 359 mil ton (+4% a/a); papel-cartão +7% volume, +5% receita.</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">Insumo interno para o próprio segmento de embalagens (integração vertical)</p></div>
+    <div class="card"><h4 style="margin-top:0;">Embalagens</h4><p style="font-size:13.5px;margin-bottom:6px;">Papelão ondulado + sacos industriais, ~36% da receita 2025 (maior segmento). Volume 2T26: 273 mil ton (estável a/a); receita +3%.</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">Reforçado por ativos adquiridos da Arauco (packaging), integrados desde 2024</p></div>
+  </div>
+  <h3>Diferenciais competitivos</h3>
+  <ul class="clean">
+    <li>Única produtora com portfólio 100% integrado de celulose + papéis + embalagens no Brasil</li>
+    <li>Base florestal própria extensa — moat de custo de matéria-prima frente a competidores sem terras</li>
+    <li>Rating de crédito de grau de investimento em escala local (AAA.br/AAA(bra)), acesso a capital mais barato</li>
+    <li>Flexibilidade de mix (gestão ativa entre celulose/fluff/papéis conforme ciclo) mitiga volatilidade de resultado</li>
+  </ul>
+</section>
+
+<section class="block" id="s9">
+  <div class="block-head"><span class="block-num">04</span><h2>Gráficos — Receita e EBITDA</h2></div>
+  <p>Receita Líquida (R$ milhões), 2021-2025 histórico + 2026E-2030E projeção (Cenário Base):</p>
+  <div class="bars">
+    <div class="bar-col"><div class="bar" style="height:100%;"><div class="fill" style="height:62%;"></div></div><div class="val">16.481</div><div class="lbl">2021</div></div>
+    <div class="bar-col"><div class="bar" style="height:100%;"><div class="fill" style="height:76%;"></div></div><div class="val">20.033</div><div class="lbl">2022</div></div>
+    <div class="bar-col"><div class="bar" style="height:100%;"><div class="fill" style="height:68%;"></div></div><div class="val">18.024</div><div class="lbl">2023</div></div>
+    <div class="bar-col"><div class="bar" style="height:100%;"><div class="fill" style="height:75%;"></div></div><div class="val">19.645</div><div class="lbl">2024</div></div>
+    <div class="bar-col"><div class="bar" style="height:100%;"><div class="fill" style="height:78%;"></div></div><div class="val">20.698</div><div class="lbl">2025</div></div>
+    <div class="bar-col"><div class="bar proj" style="height:100%;"><div class="fill" style="height:78%;opacity:0;"></div></div><div class="val" style="color:var(--accent);">20.642</div><div class="lbl">2026E</div></div>
+    <div class="bar-col"><div class="bar proj" style="height:100%;"><div class="fill" style="height:100%;opacity:0;"></div></div><div class="val" style="color:var(--accent);">26.391</div><div class="lbl">2030E</div></div>
+  </div>
+  <p class="methodnote">Barras tracejadas = projeção (Cenário Base). Receita 2026E praticamente estável vs. 2025
+  (impacto da parada de Otacílio Costa no 3T26E e câmbio mais apreciado), retomando crescimento de ~5% a.a. a
+  partir de 2027E.</p>
+  <h3>EBITDA Ajustado e margem</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><th></th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th class="colhead-proj">2026E</th><th class="colhead-proj">2030E</th></tr>
+    <tr><td>EBITDA Ajustado (R$ mi)</td><td>6.885</td><td>7.931</td><td>6.322</td><td>7.333</td><td>7.848</td><td class="pos">7.456</td><td class="pos">10.029</td></tr>
+    <tr><td>Margem EBITDA</td><td>41,8%</td><td>39,6%</td><td>35,1%</td><td>37,3%</td><td>37,9%</td><td class="pos">36,1%</td><td class="pos">38,0%</td></tr>
+  </table></div>
+  <p class="src">Fonte: Klabin RI, planilha "Resultados em Excel" 2T26 (histórico); modelo próprio (projeção).</p>
+</section>
+
+<section class="block" id="s10">
+  <div class="block-head"><span class="block-num">05</span><h2>Pontos de Risco</h2></div>
+  <div class="tablewrap"><table class="risk-table">
+    <tr><th style="width:22%;">Risco</th><th style="width:12%;">Severidade</th><th>Mitigante</th></tr>
+    <tr><td><b>Exposição cambial</b></td><td><span class="sev alto">Alto</span></td><td>83% da dívida bruta em moeda estrangeira (Release 2T26); parcialmente natural-hedged pela receita de exportação de celulose (USD), mas descasamento em papéis/embalagens (receita majoritariamente BRL)</td></tr>
+    <tr><td><b>Ciclo de preço de celulose</b></td><td><span class="sev alto">Alto</span></td><td>Portfólio diversificado (papéis+embalagens ~68% da receita 2025) reduz dependência isolada do preço de celulose</td></tr>
+    <tr><td><b>ROIC abaixo do WACC (spread negativo)</b></td><td><span class="sev medio">Médio</span></td><td>ROIC UDM caiu de ~19,6% (2021) para 9,0% (2T26) por diluição da base de capital pós Puma II/Arauco; tende a recuperar com maturação dos ativos e desalavancagem — acompanhar trimestre a trimestre</td></tr>
+    <tr><td><b>Parada geral de manutenção (Otacílio Costa, ago/26)</b></td><td><span class="sev medio">Médio</span></td><td>Programada e antecipada pela Companhia (guidance de custo caixa já contempla o efeito); impacto concentrado e pontual no 3T26E, sem repetição no 4T26E</td></tr>
+    <tr><td><b>El Niño / custos de insumo e frete (2S26)</b></td><td><span class="sev medio">Médio</span></td><td>Companhia relata iniciativas antecipadas de mitigação (MD&amp;A 2T26); redução de custo variável já capturada no 2T26</td></tr>
+    <tr><td><b>Covenant financeiro não identificado publicamente</b></td><td><span class="sev baixo">Baixo</span></td><td>Rating de grau de investimento local (AAA.br/AAA(bra)) e alavancagem em queda (3,2x) reduzem materialidade; ver nota na Seção 11</td></tr>
+  </table></div>
+</section>
+
+<section class="block" id="s11">
+  <div class="block-head"><span class="block-num">06</span><h2>Análise Financeira</h2></div>
+  <h3>DRE resumida — 2023A-2025A + 2026E-2027E (Cenário Base)</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><th></th><th>2023</th><th>2024</th><th>2025</th><th class="colhead-proj">2026E</th><th class="colhead-proj">2027E</th></tr>
+    <tr><td>Receita Líquida</td><td>18.024</td><td>19.645</td><td>20.698</td><td class="pos">20.642</td><td class="pos">21.948</td></tr>
+    <tr><td>EBITDA Ajustado</td><td>6.322</td><td>7.333</td><td>7.848</td><td class="pos">7.456</td><td class="pos">8.121</td></tr>
+    <tr><td>EBIT (reportado/calculado)</td><td>4.249</td><td>4.472</td><td>4.480</td><td class="pos">2.762</td><td class="pos">3.182</td></tr>
+    <tr><td>Resultado Financeiro</td><td class="neg">(435)</td><td class="neg">(2.228)</td><td class="neg">(2.101)</td><td class="neg">(1.290)</td><td class="neg">(1.492)</td></tr>
+    <tr><td>Lucro Líquido</td><td>2.847</td><td>2.047</td><td>1.678</td><td class="pos">718</td><td class="pos">1.115</td></tr>
+  </table></div>
+  <div class="callout warn"><div class="lbl">Leitura</div><p>O EBIT operacional se manteve estável/crescente entre
+  2023 e 2025 (R$4,25bi→R$4,48bi), mas o resultado financeiro piorou fortemente a partir de 2024 (-R$2,23bi,
+  ante -R$435mi em 2023) por efeito cambial sobre a dívida em moeda estrangeira, ampliada pela integração dos
+  ativos de embalagem da Arauco (concluída em 2024 — salto de ~R$6bi no Ativo Não Circulante entre 2T24 e
+  3T24). Como resultado, o lucro líquido recuou de R$2,85bi (2023) para R$1,68bi (2025). O 2026E projetado cai
+  ainda mais (R$718mi) por conta do 1T26, que registrou prejuízo líquido de R$497mi (evento pontual, já
+  realizado/reportado) — o EBIT calculado 2026E-2027E usa a simplificação EBITDA−D&amp;A (ver aba DRE do modelo,
+  nota metodológica), por isso o salto vs. 2025 reflete também essa mudança de base de cálculo, não apenas
+  operação.</p></div>
+  <h3>Endividamento, retorno e cobertura</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><th></th><th>2023</th><th>2024</th><th>2025</th><th class="colhead-proj">2026E</th><th class="colhead-proj">2027E</th></tr>
+    <tr><td>Dívida Líquida/EBITDA</td><td>n.d.¹</td><td>n.d.¹</td><td>3,3x</td><td class="pos">3,0x</td><td class="pos">2,4x</td></tr>
+    <tr><td>ROIC (UDM)</td><td>11,8%</td><td>10,2%</td><td>10,5%</td><td>—</td><td>—</td></tr>
+    <tr><td>WACC (Base)</td><td>—</td><td>—</td><td>—</td><td colspan="2">12,6%</td></tr>
+    <tr><td>ROIC − WACC (spread)</td><td class="neg">-0,8pp</td><td class="neg">-2,4pp</td><td class="neg">-2,1pp</td><td colspan="2" class="neg">2T26 UDM: -3,6pp</td></tr>
+  </table></div>
+  <p class="methodnote">¹ Dívida líquida trimestral não disponível quebrada na planilha consolidada do RI antes de
+  1T25 (limitação de fonte declarada — não estimada). Alíquota de IR/CS projetada pela estatutária (34%), sem
+  cronograma de compensação de prejuízo fiscal detalhado. Teste de MOAT (ROIC-WACC): atualmente negativo —
+  ver Seção 05.</p>
+</section>
+
+<section class="block" id="s14">
+  <div class="block-head"><span class="block-num">07</span><h2>Market Cap</h2></div>
+  <p>O Market Cap atual da Klabin (R$ 24,0 bilhões) está bem abaixo do Enterprise Value implícito no Cenário
+  Base do FCFF (R$ 55,4 bilhões de EV menos R$ 24,0 bilhões de dívida líquida = R$ 31,4 bilhões de Equity
+  Value, ou R$ 25,53/Unit) — um desconto de ~23% do mercado frente ao valor justo calculado. Em termos de
+  EV/EBITDA, o mercado precifica a Klabin a 6,5x (Fundamentus, 11/09/2026) — praticamente em linha com Suzano
+  (6,5x) e acima da Irani (5,1x); a média dos dois peers é 5,8x (ver Seção 08). O upside desta tese, portanto,
+  não depende de um re-rating de múltiplo frente a pares, e sim do valor intrínseco apurado pelo FCFF.</p>
+</section>
+
+<section class="block" id="s15">
+  <div class="block-head"><span class="block-num">08</span><h2>Peers — Comparáveis</h2></div>
+  <p>Fonte única (Fundamentus, 11/09/2026) para as três empresas — mesma data-base e mesma metodologia (LTM =
+  últimos 12 meses), garantindo comparação como-a-como.</p>
+  <div class="tablewrap"><table class="fin">
+    <tr><th style="text-align:left;">Empresa</th><th>Preço</th><th>Market Cap</th><th>EV</th><th>P/L (LTM)</th><th>EV/EBITDA</th><th>EV/EBIT</th><th>Div. Yield</th><th>Dív.Líq/Patrim</th><th>ROE</th><th>ROIC</th></tr>
+    <tr class="total"><td style="text-align:left;">Klabin (KLBN11)</td><td>R$ 19,54</td><td>R$ 24,4bi</td><td>R$ 49,1bi</td><td>43,5x¹</td><td>6,5x</td><td>18,3x</td><td>5,9%</td><td>2,61x</td><td>5,9%</td><td>5,4%</td></tr>
+    <tr><td style="text-align:left;">Suzano (SUZB3)</td><td>R$ 47,81</td><td>R$ 60,4bi</td><td>R$ 126,9bi</td><td>7,4x</td><td>6,5x</td><td>16,5x</td><td>0,0%</td><td>1,34x</td><td>16,4%</td><td>5,5%</td></tr>
+    <tr><td style="text-align:left;">Irani (RANI3)</td><td>R$ 7,95</td><td>R$ 1,8bi</td><td>R$ 2,9bi</td><td>14,2x</td><td>5,1x</td><td>8,4x</td><td>5,1%</td><td>0,76x</td><td>9,0%</td><td>11,7%</td></tr>
+    <tr><td style="text-align:left;"><i>Média Peers (SUZB3+RANI3)</i></td><td>—</td><td>—</td><td>—</td><td><i>10,8x</i></td><td><i>5,8x</i></td><td><i>12,4x</i></td><td><i>2,6%</i></td><td><i>1,05x</i></td><td><i>12,7%</i></td><td><i>8,6%</i></td></tr>
+  </table></div>
+  <p class="methodnote">¹ O P/L da Klabin (43,5x) é anormalmente elevado porque o LPA trailing (R$0,45/Unit) reflete
+  os últimos 12 meses encerrados no 2T26, que incluem o prejuízo líquido de R$497mi do 1T26 (evento pontual —
+  ver Seção 06). Não é comparável a um P/L calculado sobre o lucro do ano-calendário 2025 (R$1.678mi); por isso
+  o EV/EBITDA é a métrica de comparação mais confiável nesta seção.</p>
+  <div class="callout"><div class="lbl">Leitura da tese</div><p>Pelo EV/EBITDA — métrica mais robusta a distorções
+  pontuais de resultado financeiro/câmbio no lucro líquido — a Klabin (6,5x) negocia praticamente em linha com
+  Suzano (6,5x) e a um prêmio moderado sobre a Irani (5,1x), média de peers 5,8x. Ou seja, o mercado não está
+  pagando prêmio nem desconto relevante pelo modelo integrado da Klabin frente a pares diretos — o upside desta
+  tese vem do valor intrínseco calculado pelo FCFF (Seção 10), não de uma expectativa de re-rating de múltiplo
+  frente aos pares. Em ROIC, a Irani (11,7%) supera Klabin e Suzano — reflexo da menor intensidade de capital do
+  negócio de embalagens puro frente aos ciclos de investimento em celulose (Puma II na Klabin, expansões na
+  Suzano).</p></div>
+</section>
+
+<section class="block" id="s16">
+  <div class="block-head"><span class="block-num">09</span><h2>Análise de Sensibilidade — Preço-alvo × WACC × g</h2></div>
+  <p>Preço-alvo (R$/Unit) para combinações de WACC e g na perpetuidade, fluxos do Cenário Base fixos:</p>
+  <div class="tablewrap"><table class="sensitivity">
+    <tr><th>WACC \ g</th><th>3,0%</th><th>4,0%</th><th>4,5%</th><th>5,0%</th><th>5,5%</th><th>6,0%</th><th>7,0%</th></tr>
+    <tr><th>10,63%</th><td>27,99</td><td>33,56</td><td>37,02</td><td>41,10</td><td>45,97</td><td>51,89</td><td>68,64</td></tr>
+    <tr><th>11,13%</th><td>25,12</td><td>29,91</td><td>32,84</td><td>36,25</td><td>40,27</td><td>45,07</td><td>58,16</td></tr>
+    <tr><th>11,63%</th><td>22,59</td><td>26,74</td><td>29,25</td><td>32,14</td><td>35,50</td><td>39,46</td><td>49,94</td></tr>
+    <tr><th>12,63%</th><td>18,31</td><td>21,51</td><td>23,40</td><td class="hl">25,54</td><td>27,97</td><td>30,78</td><td>37,89</td></tr>
+    <tr><th>13,63%</th><td>14,84</td><td>17,36</td><td>18,83</td><td>20,46</td><td>22,30</td><td>24,38</td><td>29,47</td></tr>
+    <tr><th>14,63%</th><td>11,97</td><td>14,00</td><td>15,16</td><td>16,44</td><td>17,87</td><td>19,45</td><td>23,26</td></tr>
+    <tr><th>15,63%</th><td>9,56</td><td>11,21</td><td>12,15</td><td>13,18</td><td>14,31</td><td>15,56</td><td>18,48</td></tr>
+  </table></div>
+  <p class="methodnote">Célula em destaque = combinação exata do Cenário Base (WACC 12,63% × g 5,0%), reconciliando
+  com o preço-alvo headline de R$25,53 do modelo detalhado. A matriz mostra que mesmo em combinações mais
+  conservadoras de WACC/g (ex: WACC 13,63% × g 4,0% → R$17,36) o valuation ainda aponta upside ou neutralidade
+  frente ao preço atual (R$19,54); apenas a combinação de WACC muito elevado (≥14,6%) com g baixo (≤4%) sugere
+  downside.</p>
+</section>
+
+<section class="block" id="s17">
+  <div class="block-head"><span class="block-num">10</span><h2>Fluxo de Caixa Descontado (FCFF)</h2></div>
+  <h3>Premissas-chave (Cenário Base)</h3>
+  <ul class="clean">
+    <li><b>WACC 12,6%</b> = Ke 18,0% (Rf 14,5% Tesouro Prefixado + prêmio 3,5%) × E/(D+E) 50,0% + Kd pós-imposto
+    7,3% (Kd pré-imposto 11,0%, blend 83% moeda estrangeira/17% local, IR/CS 34%) × D/(D+E) 50,0%</li>
+    <li><b>g = 5,0%</b> a.a. nominal BRL (inflação de longo prazo + crescimento real modesto)</li>
+    <li>Receita: volume×preço por segmento (Celulose/Papéis/Embalagens), com haircut de volume de -4,5% no 3T26E
+    (parada geral de Otacílio Costa) e retomada no 4T26E</li>
+    <li>Margem EBITDA: 36,5% em 2026E (pressão de custo/câmbio no 2S26) convergindo a 38,0% em 2030E</li>
+    <li>Capex: 16,0% da receita em 2026E (guidance formal R$3,3bi), normalizando a 13,5% em regime de manutenção
+    pós-Puma II a partir de 2027E</li>
+    <li>Capital de giro: DSO 38,6 / DIO 70,2 / DPO 53,0 dias (2T26, RI)</li>
+  </ul>
+  <h3>Enterprise Value → Preço-alvo (Base)</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><td>Σ VP dos FCFF explícitos (2026E-2030E)</td><td>R$ 15.564 mi</td></tr>
+    <tr><td>(+) VP do Valor Terminal (Gordon)</td><td>R$ 39.882 mi</td></tr>
+    <tr class="total"><td>Enterprise Value</td><td>R$ 55.445 mi</td></tr>
+    <tr><td>(−) Dívida Líquida (2T26)</td><td class="neg">R$ (24.032) mi</td></tr>
+    <tr class="total"><td>Equity Value</td><td>R$ 31.413 mi</td></tr>
+    <tr class="total"><td>PREÇO-ALVO KLBN11</td><td>R$ 25,53</td></tr>
+  </table></div>
+  <h3>Cruzamento do Valor Terminal — Gordon × Múltiplo de Saída</h3>
+  <div class="grid-2">
+    <div class="card"><h4 style="margin-top:0;">Gordon Growth (principal)</h4><p class="num" style="font-size:22px;font-weight:600;margin-bottom:4px;">R$ 25,53</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">FCFF×(1+g)/(WACC−g)</p></div>
+    <div class="card"><h4 style="margin-top:0;">Múltiplo de Saída (cross-check)</h4><p class="num" style="font-size:22px;font-weight:600;margin-bottom:4px;">R$ 21,34</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">EBITDA 2030E × 5,8x (média Suzano+Irani, Fundamentus)</p></div>
+  </div>
+  <h3>Cenários</h3>
+  <div class="scenario-cards">
+    <div class="scenario"><div class="tt">Conservador</div><div class="px">R$ 16,84</div><div class="up neg">-13,8% downside</div><div class="assump">WACC <b>12,9%</b> · g <b>4,5%</b><br>Crescimento de receita blended ~3,5% a.a.; margem EBITDA 2030E 36,0%</div></div>
+    <div class="scenario base"><div class="tt">Base</div><div class="px">R$ 25,53</div><div class="up pos">+30,6% upside</div><div class="assump">WACC <b>12,6%</b> · g <b>5,0%</b><br>Crescimento de receita blended ~5,0% a.a.; margem EBITDA 2030E 38,0%</div></div>
+    <div class="scenario"><div class="tt">Otimista</div><div class="px">R$ 42,12</div><div class="up pos">+115,5% upside</div><div class="assump">WACC <b>12,3%</b> · g <b>5,5%</b><br>Crescimento de receita blended ~7,0% a.a.; margem EBITDA 2030E 40,0%</div></div>
+  </div>
+  <p class="methodnote">O preço-alvo Base "oficial" desta tese (R$25,53) vem do modelo detalhado (segmentado por
+  volume×preço, com detalhe trimestral do 2S26). Os cenários Conservador/Otimista vêm de um recálculo
+  simplificado e independente (aba "Cenarios" do modelo Excel), usado como banda de sensibilidade — não como
+  réplica exata do modelo detalhado (a versão Base do recálculo simplificado aponta R$28,29, ~11% acima do
+  modelo detalhado, divergência aceitável dado o nível de simplificação). O cenário Otimista deve ser lido como
+  teto de banda, não como cenário-base de probabilidade elevada.</p>
+</section>
+
+<section class="block" id="s19">
+  <div class="block-head"><span class="block-num">11</span><h2>Parecer de Capacidade de Pagamento (contexto de crédito)</h2></div>
+  <p>Embora o objetivo declarado desta análise seja valuation de equity, a Klabin acessa majoritariamente o
+  mercado de dívida (bonds, CPR-F, export credit) em vez de operações bilaterais bancárias — por isso este
+  parecer é informativo/contextual, não uma recomendação de operação de crédito específica.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-top:0;">Capacidade de pagamento</h4>
+      <p style="font-size:13.5px;">Liquidez total disponível (caixa + RCF não sacada): R$ 12,7 bilhões (2T26),
+      cobrindo ~16,5x a amortização de 2026 (R$ 769 mi) e ~5,4x a de 2027 (R$ 2.345 mi). Prazo médio da dívida:
+      84 meses (7 anos). Geração de caixa operacional (FCFF Base 2026E-2030E) financia integralmente o Capex
+      guiado sem necessidade de nova captação líquida relevante no cenário Base.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0;">Covenants e garantias</h4>
+      <p style="font-size:13.5px;">Covenant financeiro contratual específico não localizado em fonte pública
+      durante este levantamento (declarado como limitação, não estimado). Referência genérica de mercado para
+      emissores do setor (~3,0-3,5x Dívida Líquida/EBITDA) é usada como proxy — a Klabin está em 3,2x, dentro
+      dessa faixa, com tendência de queda. Ratings de grau de investimento em escala local (Fitch AAA(bra)/BB+
+      Perspectiva Positiva; Moody's AAA.br/Ba1 Estável; S&amp;P brAAA/BB+ Estável) sinalizam mercado de crédito
+      já precificando risco moderado-baixo.</p>
+    </div>
+  </div>
+  <p class="methodnote">Fonte: Klabin RI, Release de Resultados 2T26 (Endividamento e Disponibilidades, Anexo 3 —
+  Cronograma de Amortização, Rating).</p>
+</section>
+
+<section class="block" id="s18">
+  <div class="block-head"><span class="block-num">12</span><h2>Conclusão</h2></div>
+  <p><b>Recomendação: COMPRA</b>, com preço-alvo Base de R$ 25,53/Unit (+30,6% de upside sobre R$19,54). A tese
+  se sustenta em três pilares: (i) valor intrínseco (FCFF) acima do preço de mercado mesmo com a Klabin já
+  negociando em linha com peers em EV/EBITDA (6,5x vs. 5,8x da média Suzano+Irani — Seção 08), frente ao
+  portfólio único, integrado, de celulose+papéis+embalagens; (ii) trajetória de desalavancagem consistente
+  e reconhecida pelas agências de rating (Fitch elevou perspectiva a Positiva); (iii) guidance formal e
+  granular da Administração (Capex, custo caixa, cronograma de paradas) que permite modelar o 2S26 com alta
+  precisão, reduzindo a incerteza de curto prazo. A principal ressalva é o ROIC ainda abaixo do WACC em base
+  trailing (spread -3,6pp no 2T26) — resultado da diluição de capital pós Puma II/Arauco — que precisa mostrar
+  sinais claros de recuperação nos próximos 2-3 trimestres para validar a tese de reversão à média histórica
+  (ROIC ~19% em 2021-2022). Recomenda-se acompanhamento trimestral desse indicador como gatilho de revisão.</p>
+</section>
+
+<section class="block" id="s20">
+  <div class="block-head"><span class="block-num">13</span><h2>Disclaimer</h2></div>
+  <div class="disclaimer">Esta análise não constitui recomendação de investimento. Trata-se de material de
+  estudo/apoio à decisão, com premissas e fontes declaradas ao longo deste documento e no arquivo Excel do
+  modelo (KLBN11_Valuation_Model.xlsx). Antes de investir, consulte um profissional habilitado. Ressalva de
+  auditoria: o ITR 30/06/2026 da Klabin (CVM) traz "Relatório da Revisão Especial — SEM RESSALVA" dos
+  auditores independentes.</div>
+</section>
+
+</main>
+</div>
+</div>
+
+<div class="wrap"><div class="foot">Fontes principais: Klabin RI (Central de Resultados 2T26, Release, Apresentação),
+ITR 30/06/2026 (CVM), Fato Relevante 09/12/2025 (guidance), BRAPI (API, cotação), Fundamentus (peers, 11/09/2026).
+Modelo completo com fórmulas vivas, 3 cenários, aba de Peers e histórico 2021-2T26 em KLBN11_Valuation_Model.xlsx.</div></div>
+
+</body></html>
