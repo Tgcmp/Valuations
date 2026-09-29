@@ -5,36 +5,201 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Laudos de Valuation</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 3rem auto; padding: 0 1rem; }
-    li { margin: .5rem 0; }
+    :root {
+      --bg: #f4f6fa;
+      --surface: #ffffff;
+      --text: #1a2233;
+      --muted: #6b7789;
+      --border: #e2e7ef;
+      --navy: #0b1f3a;
+      --navy-2: #16345c;
+      --accent: #1f9d6b;
+      --accent-soft: #e4f5ee;
+      --shadow: 0 1px 2px rgba(11, 31, 58, .06), 0 4px 14px rgba(11, 31, 58, .06);
+      --shadow-hover: 0 2px 4px rgba(11, 31, 58, .08), 0 12px 28px rgba(11, 31, 58, .14);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1420;
+        --surface: #151f30;
+        --text: #e8edf5;
+        --muted: #8b98ad;
+        --border: #24324a;
+        --accent-soft: #143b2e;
+        --shadow: 0 1px 2px rgba(0,0,0,.3);
+        --shadow-hover: 0 12px 28px rgba(0,0,0,.5);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+      color: #fff;
+      padding: 3.5rem 1.25rem 4.5rem;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    .eyebrow {
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #8fb4e6;
+      margin: 0 0 .6rem;
+    }
+    h1 { margin: 0 0 .5rem; font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: -.01em; }
+    header p.sub { margin: 0; color: #c3d2e8; max-width: 560px; }
+
+    main { max-width: 980px; margin: -2.5rem auto 3rem; padding: 0 1.25rem; }
+
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;
+    }
+    .count { color: var(--muted); font-size: .85rem; }
+    .toolbar .count { color: #c3d2e8; }
+    #busca {
+      width: 100%; max-width: 280px;
+      padding: .6rem .9rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit; font-size: .9rem;
+      box-shadow: var(--shadow);
+    }
+    #busca:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      display: flex; flex-direction: column; gap: .75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover, .card:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent);
+      outline: none;
+    }
+    .ticker {
+      align-self: flex-start;
+      font-weight: 700; font-size: .8rem; letter-spacing: .06em;
+      padding: .25rem .6rem;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .nome { font-size: 1.1rem; font-weight: 600; line-height: 1.3; }
+    .rodape {
+      margin-top: auto;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .8rem; color: var(--muted);
+    }
+    .abrir { color: var(--accent); font-weight: 600; }
+    .card:hover .abrir { text-decoration: underline; }
+
+    .vazio { color: var(--muted); padding: 2rem 0; text-align: center; }
+
+    footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 1.25rem 2.5rem; max-width: 760px; margin: 0 auto; }
   </style>
 </head>
 <body>
-  <h1>Laudos de Valuation</h1>
-  <ul id="lista"><li>Carregando…</li></ul>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Equity Research</p>
+      <h1>Laudos de Valuation</h1>
+      <p class="sub">Modelos de valuation independentes de empresas listadas na B3: FCFF, cenários e análise de sensibilidade.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <span class="count" id="contagem">Carregando…</span>
+      <input id="busca" type="search" placeholder="Buscar por ticker ou empresa…" aria-label="Buscar laudo" hidden>
+    </div>
+    <section class="grid" id="lista"></section>
+  </main>
+
+  <footer>
+    Material de estudo e apoio à decisão. Não constitui recomendação de investimento.
+  </footer>
 
   <script>
-    // Detecta usuário/repositório pela URL: usuario.github.io/repositorio/
-    const owner = location.hostname.split('.')[0];
-    const repo  = location.pathname.split('/')[1];
+    // Ajuste aqui se mudar de usuário/repositório
+    const OWNER = 'Tgcmp';
+    const REPO  = 'Valuations';
 
-    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/`)
-      .then(r => r.json())
-      .then(files => {
-        const laudos = files
+    const lista = document.getElementById('lista');
+    const contagem = document.getElementById('contagem');
+    const busca = document.getElementById('busca');
+    let laudos = [];
+
+    const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+    // Lê o <title> do laudo: "Klabin S.A. (KLBN11) — Valuation"
+    async function lerTitulo(arquivo) {
+      try {
+        const html = await (await fetch(arquivo)).text();
+        const m = html.match(/<title>([\s\S]*?)<\/title>/i);
+        if (!m) return null;
+        return m[1].replace(/\s*[—–-]\s*Valuation.*$/i, '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+      } catch { return null; }
+    }
+
+    function render(filtro = '') {
+      const f = filtro.trim().toLowerCase();
+      const visiveis = laudos.filter(l => (l.ticker + ' ' + l.nome).toLowerCase().includes(f));
+      contagem.textContent = visiveis.length + (visiveis.length === 1 ? ' laudo' : ' laudos');
+      lista.innerHTML = visiveis.length
+        ? visiveis.map(l => `
+            <a class="card" href="${esc(l.arquivo)}">
+              <span class="ticker">${esc(l.ticker)}</span>
+              <span class="nome">${esc(l.nome || l.ticker)}</span>
+              <span class="rodape"><span>Laudo completo</span><span class="abrir">Abrir →</span></span>
+            </a>`).join('')
+        : '<p class="vazio">Nenhum laudo encontrado.</p>';
+    }
+
+    (async () => {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/`);
+        if (!res.ok) throw new Error(res.status);
+        const arquivos = (await res.json())
           .filter(f => /^laudo_.*\.html$/i.test(f.name))
-          .sort((a, b) => a.name.localeCompare(b.name));
+          .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }));
 
-        document.getElementById('lista').innerHTML = laudos.length
-          ? laudos.map(f => {
-              const ticker = f.name.replace(/^laudo_|\.html$/gi, '').toUpperCase();
-              return `<li><a href="${f.name}">${ticker}</a></li>`;
-            }).join('')
-          : '<li>Nenhum laudo encontrado.</li>';
-      })
-      .catch(() => {
-        document.getElementById('lista').innerHTML = '<li>Erro ao carregar a lista.</li>';
-      });
+        laudos = await Promise.all(arquivos.map(async f => ({
+          arquivo: f.name,
+          ticker: f.name.replace(/^laudo_|\.html$/gi, '').toUpperCase(),
+          nome: await lerTitulo(f.name)
+        })));
+
+        busca.hidden = laudos.length < 6;   // busca só aparece com muitos laudos
+        render();
+      } catch (e) {
+        contagem.textContent = '';
+        lista.innerHTML = '<p class="vazio">Não foi possível carregar a lista de laudos. Tente novamente em alguns minutos.</p>';
+      }
+    })();
+
+    busca.addEventListener('input', e => render(e.target.value));
   </script>
 </body>
 </html>
