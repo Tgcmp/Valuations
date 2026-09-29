@@ -1,9 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta http-equiv="refresh" content="0; url=laudo_klbn11.html">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laudos de Valuation</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 3rem auto; padding: 0 1rem; }
+    li { margin: .5rem 0; }
+  </style>
 </head>
 <body>
-    <p>Redirecionando para o laudo... <a href="laudo_klbn11.html">Clique aqui se não redirecionar</a></p>
+  <h1>Laudos de Valuation</h1>
+  <ul id="lista"><li>Carregando…</li></ul>
+
+  <script>
+    // Detecta usuário/repositório pela URL: usuario.github.io/repositorio/
+    const owner = location.hostname.split('.')[0];
+    const repo  = location.pathname.split('/')[1];
+
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/`)
+      .then(r => r.json())
+      .then(files => {
+        const laudos = files
+          .filter(f => /^laudo_.*\.html$/i.test(f.name))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        document.getElementById('lista').innerHTML = laudos.length
+          ? laudos.map(f => {
+              const ticker = f.name.replace(/^laudo_|\.html$/gi, '').toUpperCase();
+              return `<li><a href="${f.name}">${ticker}</a></li>`;
+            }).join('')
+          : '<li>Nenhum laudo encontrado.</li>';
+      })
+      .catch(() => {
+        document.getElementById('lista').innerHTML = '<li>Erro ao carregar a lista.</li>';
+      });
+  </script>
 </body>
 </html>
