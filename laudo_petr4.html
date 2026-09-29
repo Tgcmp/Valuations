@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Petrobras PETR4 — Valuation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#12160F; --surface:#181D16; --surface-2:#20261C;
+  --ink:#E9ECE4; --ink-muted:#A7B0A0; --ink-faint:#6E766A; --border:#2C332A;
+  --accent:#6FB89A; --accent-ink:#0E1A15; --accent-soft:#1D2D26;
+  --kraft:#D9A164; --kraft-soft:#2B2318;
+  --positive:#63B98A; --positive-soft:#152A1F;
+  --negative:#E28173; --negative-soft:#301A17;
+  --warn:#E0B65F; --warn-soft:#2E2614;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 24px rgba(0,0,0,0.35);
+}
+:root[data-theme="light"]{
+  --bg:#F7F8F4; --surface:#FFFFFF; --surface-2:#EFF1E9;
+  --ink:#161F19; --ink-muted:#54615A; --ink-faint:#8A9690; --border:#DCE1D7;
+  --accent:#2F5D50; --accent-ink:#FFFFFF; --accent-soft:#E4EDE8;
+  --kraft:#9C6B3E; --kraft-soft:#F1E4D3;
+  --positive:#2F7D4F; --positive-soft:#E3F1E7;
+  --negative:#B3402F; --negative-soft:#FBE7E2;
+  --warn:#B8862B; --warn-soft:#FBF0DA;
+  --shadow: 0 1px 2px rgba(22,31,25,0.06), 0 6px 20px rgba(22,31,25,0.05);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--accent-soft);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 120px;}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;text-wrap:balance;color:var(--ink);margin:0;}
+p{margin:0 0 14px;color:var(--ink);}
+.lede{color:var(--ink-muted);}
+a{color:var(--accent);}
+table{font-variant-numeric:tabular-nums;}
+.num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
+
+.masthead{background:linear-gradient(180deg, #1D3A31 0%, #10201A 100%);color:var(--accent-ink);padding:56px 28px 44px;}
+:root[data-theme="light"] .masthead{background:linear-gradient(180deg, var(--accent) 0%, #24473D 100%);}
+.masthead-inner{max-width:1180px;margin:0 auto;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,0.72);display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.eyebrow span{display:flex;align-items:center;gap:6px;}
+.eyebrow .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);}
+.masthead h1{font-size:clamp(32px,4.4vw,52px);font-weight:600;color:#fff;line-height:1.06;}
+.masthead .ticker{font-family:'IBM Plex Mono',monospace;font-size:.5em;font-weight:500;color:rgba(255,255,255,0.68);vertical-align:middle;margin-left:10px;}
+.masthead .sub{color:rgba(255,255,255,0.78);font-size:17px;max-width:680px;margin-top:14px;}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(255,255,255,0.16);margin-top:34px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.16);}
+.stat{background:rgba(15,26,21,0.28);padding:16px 18px;}
+.stat .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,0.6);margin-bottom:6px;}
+.stat .v{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:#fff;}
+.stat .v.pos{color:#9FE0BE;} .stat .v.neg{color:#F3A99B;}
+.stat .d{font-size:12px;color:rgba(255,255,255,0.55);margin-top:3px;}
+.reco-chip{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1D3A31;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-top:22px;}
+.reco-chip .arrow{font-size:15px;}
+
+.layout{display:grid;grid-template-columns:230px 1fr;gap:48px;margin-top:44px;align-items:start;}
+.toc{position:sticky;top:24px;font-size:13.5px;}
+.toc-title{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:12px;}
+.toc a{display:block;color:var(--ink-muted);text-decoration:none;padding:5px 0 5px 12px;border-left:2px solid var(--border);transition:color .15s, border-color .15s;}
+.toc a:hover{color:var(--accent);border-left-color:var(--accent);}
+.toc a .num{color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-right:6px;}
+main{min-width:0;}
+
+section.block{padding:40px 0;border-top:1px solid var(--border);}
+section.block:first-child{border-top:none;padding-top:8px;}
+.block-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;}
+.block-num{font-family:'IBM Plex Mono',monospace;color:var(--kraft);font-size:14px;font-weight:600;}
+.block h2{font-size:26px;font-weight:600;}
+.block h3{font-size:18px;font-weight:600;margin:26px 0 10px;color:var(--ink);}
+.block h4{font-size:14.5px;font-weight:600;margin:18px 0 8px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.03em;}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+@media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr;} .layout{grid-template-columns:1fr;} .toc{display:none;}}
+
+ul.clean{margin:0 0 14px;padding-left:0;list-style:none;}
+ul.clean li{padding:7px 0 7px 20px;position:relative;border-bottom:1px dashed var(--border);}
+ul.clean li:last-child{border-bottom:none;}
+ul.clean li::before{content:"—";position:absolute;left:0;color:var(--kraft);}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;margin:14px 0;}
+table.fin{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px;}
+table.fin th{background:var(--surface-2);color:var(--ink-muted);font-weight:600;text-align:right;padding:9px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;position:sticky;top:0;}
+table.fin th:first-child{text-align:left;}
+table.fin td{padding:8px 12px;text-align:right;border-top:1px solid var(--border);white-space:nowrap;}
+table.fin td:first-child{text-align:left;color:var(--ink-muted);white-space:normal;min-width:180px;}
+table.fin tr.total td{font-weight:600;color:var(--ink);border-top:1.5px solid var(--ink-faint);}
+table.fin tr.proj td{color:var(--accent);}
+table.fin .colhead-proj{color:var(--accent);}
+table.fin td.neg{color:var(--negative);} table.fin td.pos{color:var(--positive);}
+
+.tag{display:inline-block;font-size:11px;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border-radius:5px;font-weight:600;letter-spacing:.02em;}
+.tag.hist{background:var(--surface-2);color:var(--ink-muted);}
+.tag.proj{background:var(--accent-soft);color:var(--accent);}
+
+.risk-table{width:100%;border-collapse:collapse;font-size:14px;}
+.risk-table td,.risk-table th{padding:12px 14px;border-top:1px solid var(--border);text-align:left;vertical-align:top;}
+.risk-table th{background:var(--surface-2);font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-muted);}
+.sev{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap;}
+.sev.alto{background:var(--negative-soft);color:var(--negative);}
+.sev.medio{background:var(--warn-soft);color:var(--warn);}
+.sev.baixo{background:var(--positive-soft);color:var(--positive);}
+
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0;}
+.callout.warn{border-color:var(--warn);background:var(--warn-soft);}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted);margin-bottom:6px;}
+
+.scenario-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0;}
+.scenario{border-radius:12px;padding:20px;border:1px solid var(--border);background:var(--surface);}
+.scenario.base{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+.scenario .tt{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin-bottom:8px;}
+.scenario .px{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;}
+.scenario .up{font-size:13px;margin-top:4px;font-weight:600;}
+.scenario .up.pos{color:var(--positive);} .scenario .up.neg{color:var(--negative);}
+.scenario .assump{margin-top:12px;font-size:12.5px;color:var(--ink-muted);line-height:1.7;}
+.scenario .assump b{color:var(--ink);}
+
+.sensitivity{border-collapse:collapse;font-size:13px;width:100%;}
+.sensitivity th,.sensitivity td{padding:9px 12px;text-align:center;border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;}
+.sensitivity th{background:var(--surface-2);color:var(--ink-muted);font-family:'IBM Plex Sans',sans-serif;font-size:12px;}
+.sensitivity td.hl{outline:2px solid var(--accent);outline-offset:-2px;font-weight:700;}
+
+.bars{display:flex;align-items:flex-end;gap:10px;height:180px;margin:22px 0 8px;padding:0 4px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;}
+.bar-col .bar{width:100%;max-width:46px;border-radius:5px 5px 0 0;background:var(--accent-soft);position:relative;display:flex;align-items:flex-end;justify-content:center;}
+.bar-col .bar.proj{background:repeating-linear-gradient(135deg,var(--accent-soft),var(--accent-soft) 5px,var(--surface-2) 5px,var(--surface-2) 8px);border:1px dashed var(--accent);}
+.bar-col .bar .fill{width:100%;background:var(--accent);border-radius:5px 5px 0 0;}
+.bar-col .lbl{font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;}
+.bar-col .val{font-size:11px;color:var(--ink-muted);font-family:'IBM Plex Mono',monospace;}
+
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px;}
+.pill{font-size:12.5px;padding:5px 12px;border-radius:999px;background:var(--surface-2);color:var(--ink-muted);font-family:'IBM Plex Mono',monospace;}
+.foot{margin-top:60px;padding:26px 0 10px;border-top:1px solid var(--border);color:var(--ink-faint);font-size:12.5px;line-height:1.7;}
+.disclaimer{background:var(--surface-2);border-radius:10px;padding:18px 22px;font-size:13px;color:var(--ink-muted);margin-top:14px;}
+.src{font-size:11.5px;color:var(--ink-faint);margin-top:4px;}
+.two-col-text{columns:2;column-gap:32px;}
+@media(max-width:700px){.two-col-text{columns:1;} .scenario-cards{grid-template-columns:1fr;} .grid-3{grid-template-columns:1fr;}}
+.methodnote{font-size:12.5px;color:var(--ink-faint);font-style:italic;margin-top:8px;}
+
+@page{ size:A4; margin:14mm 12mm; }
+@media print{
+  body{ background:#fff; font-size:13.5px; }
+  .wrap{ max-width:100%; padding:0 4mm 24px; }
+  .masthead{ -webkit-print-color-adjust:exact; print-color-adjust:exact; padding:28px 4mm 22px; }
+  .toc{ display:none; }
+  .layout{ grid-template-columns:1fr; gap:0; margin-top:24px; }
+  section.block{ padding:20px 0; }
+  a{ color:var(--ink); text-decoration:none; }
+}
+.tablewrap,table.fin,.risk-table,.sensitivity,.card,.callout,.scenario,.scenario-cards,
+.stat-row,.bars,.grid-2,.grid-3,.pillrow{
+  break-inside:avoid; page-break-inside:avoid;
+}
+table.fin tr,.risk-table tr,.sensitivity tr{ break-inside:avoid; page-break-inside:avoid; }
+h2,h3,h4,.block-head{ break-after:avoid; page-break-after:avoid; }
+.tablewrap{ overflow-x:visible; }
+table.fin{ width:100%; min-width:0; table-layout:auto; }
+@media print{
+  table.fin,.risk-table,.sensitivity{ font-size:11.5px; }
+  table.fin th,table.fin td{ padding:6px 7px; white-space:normal; }
+  .sensitivity th,.sensitivity td{ padding:6px 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">
+      <span>Equity Research &amp; Análise de Crédito</span><span class="dot"></span>
+      <span>Óleo, Gás e Petroquímicos</span><span class="dot"></span>
+      <span>Data-base: 21/09/2026</span>
+    </div>
+    <h1>Petróleo Brasileiro S.A. — Petrobras<span class="ticker">PETR4 · PETR3</span></h1>
+    <p class="sub">Valuation por Fluxo de Caixa Descontado (FCFF), 3 cenários (Conservador/Base/Otimista), histórico 2021–2T26 e projeção trimestral 3T26E/4T26E seguida de projeção anual 2027E–2035E. WACC único via CAPM aplicado aos 3 cenários; Valor Terminal cruzado por Gordon Growth e múltiplo de saída.</p>
+    <div class="reco-chip"><span class="arrow">▼</span> NEUTRO / REDUZIR EM FORÇA RELATIVA — Cenário Base</div>
+    <div class="stat-row">
+      <div class="stat"><div class="k">Preço atual (PETR4)</div><div class="v">R$ 48,00</div><div class="d">21/09/2026</div></div>
+      <div class="stat"><div class="k">Preço justo (Base)</div><div class="v neg">R$ 42,08</div><div class="d">Horizonte 3-5 anos</div></div>
+      <div class="stat"><div class="k">Upside (Base)</div><div class="v neg">-12,3%</div><div class="d">vs. preço atual</div></div>
+      <div class="stat"><div class="k">WACC (BRL, único p/ 3 cen.)</div><div class="v">12,3%</div><div class="d">g = 4,5%</div></div>
+      <div class="stat"><div class="k">Faixa Conserv.–Otimista</div><div class="v">R$ 13,91–66,40</div><div class="d">amplitude 4,8x</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="layout">
+
+<nav class="toc">
+  <div class="toc-title">Sumário</div>
+  <a href="#s1"><span class="num">01</span>Resumo</a>
+  <a href="#s3"><span class="num">02</span>Setor</a>
+  <a href="#s5"><span class="num">03</span>Companhia</a>
+  <a href="#s9"><span class="num">04</span>Gráficos</a>
+  <a href="#s10"><span class="num">05</span>Riscos</a>
+  <a href="#s11"><span class="num">06</span>Financeiro</a>
+  <a href="#s14"><span class="num">07</span>Market Cap</a>
+  <a href="#s15"><span class="num">08</span>Peers</a>
+  <a href="#s16"><span class="num">09</span>Sensibilidade</a>
+  <a href="#s17"><span class="num">10</span>DCF (FCFF)</a>
+  <a href="#s18"><span class="num">11</span>Conclusão</a>
+  <a href="#s20"><span class="num">12</span>Disclaimer</a>
+</nav>
+
+<main>
+
+<section class="block" id="s1">
+  <div class="block-head"><span class="block-num">01</span><h2>Página Inicial — Resumo</h2></div>
+  <p class="lede">A Petrobras é a maior empresa brasileira e uma das maiores petroleiras do mundo, estatal de economia mista sob controle da União (50,26% do capital votante), integrada em Exploração &amp; Produção (E&amp;P, majoritariamente pré-sal), Refino, Transporte e Comercialização (RTC) e Gás &amp; Energias de Baixo Carbono (G&amp;EBC). O 2T26 trouxe lucro líquido recorde de R$52,4 bilhões, turbinado por um Brent excepcionalmente alto (média de US$104,52/bbl) em meio ao choque geopolítico Irã-EUA de setembro/2026 — um patamar que a própria curva futura da EIA (STEO, set/2026) projeta normalizar para a faixa de US$70-75/bbl já em 2027. A tese deste laudo, no Cenário Base, aponta preço justo de R$42,08/ação — cerca de 12% abaixo da cotação atual de R$48,00 — refletindo essa normalização de preço de petróleo sobre um WACC único de 12,3% aplicado aos 3 cenários.</p>
+  <div class="grid-2" style="margin-top:20px;">
+    <div class="card">
+      <h4 style="margin-top:0;">Destaques da tese</h4>
+      <ul class="clean">
+        <li>Produção recorde de 3,336 milhões de boed no 2T26 (+14,1% a/a), pré-sal já respondendo por 83% do total — ramp-up do FPSO P-79 (Búzios 8)</li>
+        <li>Alavancagem baixa e sob controle: Dívida Líquida/EBITDA de 1,14x no 2T26, dentro do teto de US$75 bi de dívida bruta do Plano de Negócios 2026-2030</li>
+        <li>Política de remuneração geradora de caixa: dividendo mínimo de 45% do Fluxo de Caixa Livre, ~US$45-50 bi estimados para o ciclo 2026-2030</li>
+        <li>Pipeline robusto de novos FPSOs (Búzios 9/10/11, Atapu 2, Sépia 2) sustenta meta de produção de pico de 3,4 milhões boed em 2028-2029</li>
+        <li>Capex disciplinado: US$109 bi para o ciclo 2026-2030, 1,8% menor que o plano anterior — sinal de disciplina de capital, não de corte por fraqueza</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0;">Principais riscos (ver seção 05)</h4>
+      <ul class="clean">
+        <li><span class="sev alto" style="margin-right:8px;">Alto</span>Reversão do Brent para US$70-75/bbl (EIA, 2027) comprime FCFF nos 3 cenários — já incorporado na tese</li>
+        <li><span class="sev alto" style="margin-right:8px;">Alto</span>Risco de governança/interferência política em preços de combustíveis, mais sensível com Brent acima de US$100/bbl</li>
+        <li><span class="sev medio" style="margin-right:8px;">Médio</span>Licenciamento lento da Margem Equatorial/Foz do Amazonas</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pillrow">
+    <span class="pill">Data da análise: 21/09/2026</span>
+    <span class="pill">Preço atual: R$ 48,00</span>
+    <span class="pill">Preço justo Base: R$ 42,08 (-12,3%)</span>
+    <span class="pill">Faixa Conservador–Otimista: R$ 13,91 – R$ 66,40</span>
+    <span class="pill">Tese: 3-5 anos</span>
+  </div>
+</section>
+
+<section class="block" id="s3">
+  <div class="block-head"><span class="block-num">02</span><h2>Análise do Setor</h2></div>
+  <div class="two-col-text">
+    <p>A Petrobras é essencialmente uma <b>"price taker"</b> em relação ao Brent: sua receita e margens são altamente correlacionadas ao preço internacional do petróleo, com transmissão parcial e defasada para o consumidor doméstico via política de preços de derivados. Em março/2026, a empresa formalizou o abandono do PPI (Preço de Paridade de Importação, herdado do governo Temer) em favor de uma referência de "custo alternativo do cliente" e "valor marginal para a Petrobras" — mecanismo que amortece, mas não elimina, a transmissão de choques de Brent para o preço doméstico. O governo instituiu subvenções ao diesel (MP 1.340/12-03-2026, R$0,32/litro) e à gasolina (mai/2026), sinalizando disposição de conter repasses em cenários de Brent muito elevado — como o atual.</p>
+    <p>Entre jan/2023 e abr/2025, os preços de diesel e gasolina nas refinarias caíram 20,9% e 4,0%, respectivamente, mesmo com o Brent oscilando — evidência de que a nova política comercial já opera com graus de liberdade em relação à paridade internacional. Esse é o principal canal de risco político do setor no Brasil: a "cunha" entre o preço internacional (que remunera o acionista via EBITDA de E&amp;P) e o preço doméstico (sujeito a pressão política, sobretudo em anos eleitorais e em choques de alta como o atual).</p>
+  </div>
+  <p class="src">Fontes: Eixos ("fim do PPI"); Fecombustíveis; SEC 6-K 30/04/2026; AEPET — pesquisa realizada em 21/09/2026.</p>
+  <h3>Cadeia de valor e drivers</h3>
+  <p>E&amp;P (exploração e produção, majoritariamente pré-sal em águas ultra-profundas da Bacia de Santos) → RTC (12 refinarias, ~1,8 milhão bpd de capacidade instalada, ampliando para 2,1 milhões bpd até 2030 via RNEST Trem 2; logística de dutos/terminais) → Gás &amp; Energias de Baixo Carbono (processamento de gás natural, geração termelétrica, fertilizantes — retomada da UFN-3 em Três Lagoas, aprovada em 13/04/2026). Os principais drivers de valor são, em ordem de relevância: <b>Brent</b> (maior parte da variância de receita/EBITDA), <b>câmbio USD/BRL</b> (receita e ~85% da dívida financeira em USD, hedge natural parcial), <b>produção</b> (função do ramp-up de novos FPSOs líquido do declínio natural de campos maduros) e <b>utilização de refino</b> (fator recorde de 101,2% no 2T26, mix de 68% em produtos de alto valor).</p>
+  <p class="src">Fontes: RI Petrobras (Central de Resultados, Plano de Negócios 2026-2030, 28/11/2025); EIA STEO (set/2026); Boletim Focus/BCB (21/09/2026).</p>
+</section>
+
+<section class="block" id="s5">
+  <div class="block-head"><span class="block-num">03</span><h2>Companhia</h2></div>
+  <h3>Estrutura societária</h3>
+  <p>Capital total (ago/2026): Governo Federal 29,02% + BNDESPar 5,38% + BNDES 1,05% = <b>35,45%</b> (grupo de controle) · Free float 64,55%. No capital votante (ON/PETR3), o Governo Federal detém isoladamente <b>50,26%</b>, garantindo controle absoluto mesmo com a maior parte do capital total (incl. PN/PETR4, sem voto) em free float. Este é o principal vetor do risco de governança tratado na Seção 05.</p>
+  <p class="src">Fonte: investidorpetrobras.com.br — Estrutura Acionária, dado de agosto/2026.</p>
+  <h3>Modelo de negócios (3 segmentos, dados FY2025)</h3>
+  <div class="grid-3">
+    <div class="card"><h4 style="margin-top:0;">Exploração &amp; Produção</h4><p style="font-size:13.5px;margin-bottom:6px;">Receita R$332,8 bi (intersegmento) · EBITDA ajustado R$219,7 bi · margem 66%</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">ROCE 9,4% · Lifting cost pré-sal US$4,19/boe · motor de caixa do grupo</p></div>
+    <div class="card"><h4 style="margin-top:0;">Refino, Transporte e Comercialização</h4><p style="font-size:13.5px;margin-bottom:6px;">Receita R$469,5 bi · EBITDA ajustado R$29,2 bi · margem 6%</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">ROCE 1,6% · fator de utilização recorde 101,2% (2T26)</p></div>
+    <div class="card"><h4 style="margin-top:0;">Gás &amp; Energias de Baixo Carbono</h4><p style="font-size:13.5px;margin-bottom:6px;">Receita R$48,5 bi · EBITDA ajustado R$5,3 bi · margem 11%</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">ROCE 0,9% · UFN-3 e transição energética</p></div>
+  </div>
+  <p class="src">Fonte: RI Petrobras, Demonstrações Financeiras 4T25, Tabelas 7-9 (receitas de segmento incluem vendas intersegmento, eliminadas na consolidação).</p>
+  <h3>Diferenciais competitivos</h3>
+  <ul class="clean">
+    <li><b>Moat de custo estrutural</b> — reservas do pré-sal entre as de menor custo de extração do mundo (lifting cost de US$4,19-4,45/boe), o que sustenta margem EBITDA de E&amp;P de 66% mesmo em ciclos de Brent moderado — o tipo de vantagem durável e defensável que Buffett/Munger e Terry Smith associam a retornos sobre capital superiores e sustentáveis, não a um pico cíclico</li>
+    <li><b>Integração vertical completa</b> E&amp;P–refino–logística–comercialização, reduzindo exposição a margens de crack isoladas</li>
+    <li><b>Escala e acesso a capital</b> — maior empresa da América Latina por valor de mercado, rating Ba1/BB/BB (um notch acima do soberano brasileiro), taxa média de financiamento de apenas 6,8% a.a. em dólar</li>
+    <li><b>Disciplina de capital em transição</b> — capex do ciclo 2026-2030 (US$109 bi) 1,8% menor que o ciclo anterior, com 70%+ alocado a E&amp;P de alto retorno (pré-sal), sinal de alocação de capital criteriosa (lente Buffett/Munger de "reinvestir apenas onde o retorno supera o custo de capital")</li>
+  </ul>
+</section>
+
+<section class="block" id="s9">
+  <div class="block-head"><span class="block-num">04</span><h2>Gráficos — Receita e EBITDA</h2></div>
+  <p>Receita Líquida (R$ bilhões), histórico 2021-2025 + projeção 2026E-2027E (Cenário Base):</p>
+  <div class="bars">
+    <div class="bar-col"><div class="bar" style="height:71%;"><div class="fill" style="height:100%;"></div></div><div class="val">453</div><div class="lbl">2021</div></div>
+    <div class="bar-col"><div class="bar" style="height:100%;"><div class="fill" style="height:100%;"></div></div><div class="val">641</div><div class="lbl">2022</div></div>
+    <div class="bar-col"><div class="bar" style="height:80%;"><div class="fill" style="height:100%;"></div></div><div class="val">512</div><div class="lbl">2023</div></div>
+    <div class="bar-col"><div class="bar" style="height:77%;"><div class="fill" style="height:100%;"></div></div><div class="val">491</div><div class="lbl">2024</div></div>
+    <div class="bar-col"><div class="bar" style="height:78%;"><div class="fill" style="height:100%;"></div></div><div class="val">498</div><div class="lbl">2025</div></div>
+    <div class="bar-col"><div class="bar proj" style="height:92%;"><div class="fill" style="height:0%;opacity:0;"></div></div><div class="val" style="color:var(--accent);">592</div><div class="lbl">2026E</div></div>
+    <div class="bar-col"><div class="bar proj" style="height:84%;"><div class="fill" style="height:0%;opacity:0;"></div></div><div class="val" style="color:var(--accent);">536</div><div class="lbl">2027E</div></div>
+  </div>
+  <p class="methodnote">Barras tracejadas = projeção (Cenário Base). 2026E é o ano de transição (1S26 real + 3T26E/4T26E projetados com Brent normalizando de US$92 para US$85/bbl); 2027E já reflete a curva EIA STEO de reversão a ~US$74/bbl.</p>
+  <h3>EBITDA e margem</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><th></th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th class="colhead-proj">2026E</th><th class="colhead-proj">2027E</th></tr>
+    <tr><td>EBITDA (R$ mi)</td><td>271.349</td><td>356.291</td><td>253.330</td><td>204.234</td><td>230.016</td><td class="pos">301.302</td><td class="pos">241.289</td></tr>
+    <tr><td>Margem EBITDA</td><td>59,9%</td><td>55,6%</td><td>49,5%</td><td>41,6%</td><td>46,2%</td><td class="pos">50,9%</td><td class="pos">45,0%</td></tr>
+  </table></div>
+</section>
+
+<section class="block" id="s10">
+  <div class="block-head"><span class="block-num">05</span><h2>Pontos de Risco</h2></div>
+  <div class="tablewrap"><table class="risk-table">
+    <tr><th style="width:24%;">Risco</th><th style="width:12%;">Severidade</th><th>Mitigante</th></tr>
+    <tr><td><b>Reversão do Brent</b> — EIA STEO (set/2026) projeta média de ~US$74/bbl em 2027 vs. spot de US$97-109/bbl em set/2026 (choque geopolítico Irã-EUA/ataques à Aramco)</td><td><span class="sev alto">Alto</span></td><td>Lifting cost pré-sal de apenas US$4,19-4,45/boe mantém margem positiva de E&amp;P mesmo no Cenário Conservador (Brent terminal US$62); risco de ruído de curto prazo (Howard Marks), não de perda permanente de capital, desde que a queda não vá muito além da curva EIA</td></tr>
+    <tr><td><b>Governança / interferência política</b> em preços de combustíveis e alocação de capital, com controle votante de 50,26% da União</td><td><span class="sev alto">Alto</span></td><td>Política de preços formalizada ("custo alternativo do cliente"), mas sujeita a pressão política — sobretudo em anos eleitorais e em choques de alta do Brent como o atual; monitorar decretos/MPs de subvenção</td></tr>
+    <tr><td><b>Licenciamento ambiental lento</b> — Margem Equatorial/Foz do Amazonas: Ibama autorizou em set/2026 apenas mais 3 poços exploratórios, cronograma pendente de reenvio em 30 dias</td><td><span class="sev medio">Médio</span></td><td>Não essencial ao plano até 2030 — apenas US$2,5 bi dos US$109 bi de capex do ciclo 2026-2030; upside opcional, não parte da tese-base</td></tr>
+    <tr><td><b>Execução de projetos de FPSO</b> — histórico setorial de atrasos e sobrecustos em plataformas complexas</td><td><span class="sev medio">Médio</span></td><td>P-79 (Búzios 8) entrou em operação em 01/05/2026 dentro do prazo; P-80/P-82/P-83 já com poços perfurados — track record recente positivo</td></tr>
+    <tr><td><b>Câmbio USD/BRL</b> — volatilidade pode ampliar ou reduzir o resultado financeiro em reais</td><td><span class="sev baixo">Baixo</span></td><td>Hedge natural parcial: receita e ~85% da dívida financeira denominadas/indexadas a USD</td></tr>
+  </table></div>
+  <div class="callout warn"><div class="lbl">Nota de auditoria</div><p>O parecer da KPMG Auditores Independentes sobre as demonstrações financeiras consolidadas de 2025, datado de 05/03/2026, foi emitido <b>sem ressalvas</b> ("opinião sem ressalvas") — checado diretamente no documento "Demonstrações Financeiras 2025" do RI Petrobras. Não há apontamento de ênfase relevante identificado nesta atualização.</p></div>
+</section>
+
+<section class="block" id="s11">
+  <div class="block-head"><span class="block-num">06</span><h2>Análise Financeira</h2></div>
+  <h3>DRE resumida — 3 anos histórico + 2 anos projeção (Base)</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><th></th><th>2023</th><th>2024</th><th>2025</th><th class="colhead-proj">2026E</th><th class="colhead-proj">2027E</th></tr>
+    <tr><td>Receita Líquida</td><td>511.994</td><td>490.829</td><td>497.549</td><td class="pos">592.211</td><td class="pos">536.199</td></tr>
+    <tr><td>EBITDA</td><td>253.330</td><td>204.234</td><td>230.016</td><td class="pos">301.302</td><td class="pos">241.289</td></tr>
+    <tr><td>Margem EBITDA</td><td>49,5%</td><td>41,6%</td><td>46,2%</td><td class="pos">50,9%</td><td class="pos">45,0%</td></tr>
+    <tr><td>EBIT</td><td>189.342</td><td>137.201</td><td>145.628</td><td class="pos">214.369</td><td class="pos">153.337</td></tr>
+    <tr><td>Resultado Financeiro</td><td class="neg">-11.861</td><td class="neg">-82.471</td><td>4.971</td><td class="neg">-3.354</td><td class="neg">-19.192</td></tr>
+    <tr><td>Lucro Líquido</td><td>125.166</td><td>37.009</td><td>110.605</td><td class="pos">145.153</td><td class="pos">88.509</td></tr>
+    <tr><td>Margem Líquida</td><td>24,3%</td><td>7,5%</td><td>22,1%</td><td class="pos">24,5%</td><td class="pos">16,5%</td></tr>
+  </table></div>
+  <div class="callout warn"><div class="lbl">Leitura</div><p>2024 foi um ano de margem deprimida por itens não recorrentes (impairments de R$9,4 bi só no 4T24, variação cambial negativa de R$60,9 bi no resultado financeiro). 2025 e o 1S26 mostram recuperação de margem já antes do choque geopolítico de set/2026 — sinal de que a melhora operacional (mix pré-sal, disciplina de custo) é estrutural, não apenas o pico atual de Brent. A queda projetada de margem em 2027E reflete a normalização do Brent para a curva EIA (~US$74/bbl), não uma deterioração operacional.</p></div>
+  <h3>Endividamento, retorno e cobertura</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><th></th><th>2023</th><th>2024</th><th>2025</th><th class="colhead-proj">2026E (2T26)</th><th class="colhead-proj">2027E (Base)</th></tr>
+    <tr><td>Dívida Líquida / EBITDA</td><td>1,55x</td><td>1,60x</td><td>1,45x</td><td class="pos">1,14x</td><td class="pos">1,30x</td></tr>
+    <tr><td>ROE</td><td>32,8%</td><td>10,0%</td><td>26,5%</td><td>—</td><td>—</td></tr>
+    <tr><td>ROIC (Base 2027E)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>12,7%</td></tr>
+    <tr><td>ROIC − WACC (spread, teste de moat)</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="pos">+0,5 p.p.</td></tr>
+  </table></div>
+  <p class="methodnote">Dívida Líquida/EBITDA calculada com dívida financeira + arrendamentos IFRS16 menos disponibilidades ajustadas, sobre EBITDA calculado (EBIT+D&amp;A) — referência informal de covenant: teto de dívida bruta de US$75 bi definido no Plano de Negócios 2026-2030 (folga atual: US$70,8 bi realizados no 2T26). Alíquota efetiva de IR/CSLL projetada em 34% (estatutária). ROIC-WACC no Cenário Base é positivo mas marginal (+0,5 p.p.) — no Cenário Conservador o spread vira negativo (-3,8 p.p.), evidenciando que a criação de valor da tese depende de o Brent não cair muito abaixo da curva EIA.</p>
+</section>
+
+<section class="block" id="s14">
+  <div class="block-head"><span class="block-num">07</span><h2>Market Cap</h2></div>
+  <p>Market Cap atual (PETR3+PETR4, ações totais × preço PETR4): <b>R$ 618,7 bilhões</b> (R$48,00/ação × 12.888.733.000 ações). Enterprise Value atual = Market Cap + Dívida Líquida total (incl. arrendamentos) = R$618,7 bi + R$312,6 bi = <b>R$ 931,3 bilhões</b>, equivalente a 4,05x o EBITDA de 2025 (R$230,0 bi). Confrontando com o Enterprise Value do DCF por cenário — Conservador R$492,8 bi, Base R$855,9 bi, Otimista R$1.169,3 bi — o mercado hoje precifica a Petrobras <b>acima do Cenário Base</b> e <b>abaixo do Cenário Otimista</b>, ou seja, próximo do que seria justificável apenas se o Brent elevado de set/2026 (>US$100/bbl) persistisse de forma mais duradoura do que a curva EIA sugere — o núcleo da tese de cautela deste laudo.</p>
+</section>
+
+<section class="block" id="s15">
+  <div class="block-head"><span class="block-num">08</span><h2>Peers — Comparáveis</h2></div>
+  <div class="tablewrap"><table class="fin">
+    <tr><th style="text-align:left;">Empresa</th><th style="text-align:left;">Foco</th><th>Preço</th><th>P/L</th><th>EV/EBITDA</th></tr>
+    <tr class="total"><td style="text-align:left;">Petrobras (PETR4)</td><td style="text-align:left;">Integrada E&amp;P+Refino</td><td>R$ 48,00</td><td>5,6x</td><td>4,0x</td></tr>
+    <tr><td style="text-align:left;">PetroRio (PRIO3)</td><td style="text-align:left;">E&amp;P independente, águas rasas/profundas</td><td>R$ 61,58</td><td>12,9x</td><td>3,6x</td></tr>
+    <tr><td style="text-align:left;">Brava Energia — ex-3R/Enauta (RRRP3)</td><td style="text-align:left;">E&amp;P independente, terra+mar</td><td>R$ 18,99</td><td>38,8x</td><td>—</td></tr>
+    <tr><td style="text-align:left;">Vibra Energia (VBBR3)</td><td style="text-align:left;">Distribuição de combustíveis</td><td>R$ 38,63</td><td>9,3x</td><td>5,8x</td></tr>
+    <tr><td style="text-align:left;">ExxonMobil (XOM)</td><td style="text-align:left;">Major integrada global</td><td>—</td><td>21,2x</td><td>9,4x</td></tr>
+    <tr><td style="text-align:left;">Chevron (CVX)</td><td style="text-align:left;">Major integrada global</td><td>—</td><td>21,1x</td><td>8,6x</td></tr>
+    <tr><td style="text-align:left;">Shell (SHEL)</td><td style="text-align:left;">Major integrada global</td><td>—</td><td>9,4x</td><td>4,3x</td></tr>
+    <tr><td style="text-align:left;">Equinor (EQNR)</td><td style="text-align:left;">Major integrada, controle estatal norueguês</td><td>—</td><td>18,9x</td><td>2,8x</td></tr>
+  </table></div>
+  <p class="methodnote">Múltiplos de comparáveis coletados de agregadores financeiros (Status Invest, GuruFocus, TIKR, Multiples.vc) com datas de referência entre jul/2026 e set/2026 — validar pontualmente antes de decisão de investimento. Múltiplo de saída usado no Valor Terminal (4,5x EV/EBITDA) é a mediana entre PRIO3 e VBBR3, com desconto relevante frente às majors internacionais.</p>
+  <div class="callout"><div class="lbl">Leitura da tese</div><p>A Petrobras negocia a EV/EBITDA de 4,0x — acima de PRIO3 (3,6x) e Equinor (2,8x), mas com desconto expressivo frente a XOM/CVX (8,6-9,4x). Esse desconto reflete o prêmio de risco de governança/NOC (empresa estatal, controle votante da União), não necessariamente a qualidade dos ativos — o lifting cost do pré-sal está entre os mais baixos do mundo. O desconto é estrutural (círculo de competência: Petrobras nunca vai negociar como uma major "pura" de mercado desenvolvido) e deve ser incorporado como um teto realista de re-rating, não como uma anomalia a ser arbitrada.</p></div>
+</section>
+
+<section class="block" id="s16">
+  <div class="block-head"><span class="block-num">09</span><h2>Análise de Sensibilidade — WACC × g</h2></div>
+  <p>Preço-alvo (R$/ação) para combinações de WACC e g na perpetuidade, fluxos do Cenário Base fixos (nunca variar WACC/g simultaneamente aos 3 cenários operacionais — ver metodologia na Seção 10):</p>
+  <div class="tablewrap"><table class="sensitivity">
+    <tr><th>WACC \ g</th><th>3,5%</th><th>4,0%</th><th>4,5%</th><th>5,0%</th><th>5,5%</th></tr>
+    <tr><th>11,25%</th><td>45,65</td><td>47,98</td><td>50,66</td><td>53,80</td><td>57,52</td></tr>
+    <tr><th>11,75%</th><td>41,86</td><td>43,83</td><td>46,08</td><td>48,67</td><td>51,68</td></tr>
+    <tr><th>12,25%</th><td>38,49</td><td>40,18</td><td class="hl">42,08</td><td>44,24</td><td>46,72</td></tr>
+    <tr><th>12,75%</th><td>35,48</td><td>36,93</td><td>38,56</td><td>40,40</td><td>42,50</td></tr>
+    <tr><th>13,25%</th><td>32,78</td><td>34,04</td><td>35,43</td><td>36,99</td><td>38,74</td></tr>
+  </table></div>
+  <p class="methodnote">Célula destacada ≈ combinação do Cenário Base (WACC 12,25%, g 4,5%). O preço-alvo se mantém abaixo do preço atual (R$48,00) em praticamente toda a matriz plausível de WACC×g — mesmo no canto mais otimista (WACC 11,25% / g 5,5%) o alvo (R$57,52) fica só ~20% acima da cotação, reforçando que o principal driver do upside/downside da tese está nas premissas operacionais (Brent/produção/margem) entre cenários, não na taxa de desconto.</p>
+</section>
+
+<section class="block" id="s17">
+  <div class="block-head"><span class="block-num">10</span><h2>Fluxo de Caixa Descontado (FCFF)</h2></div>
+  <h3>Premissas-chave</h3>
+  <ul class="clean">
+    <li><b>WACC/Ke (CAPM)</b>: Rf 4,2% (Treasury 10y) + Risco Brasil 2,0% + β 0,95 × ERP 5,0% = Ke US$ 10,95% → Ke BRL 13,57% (paridade de inflação IPCA 4,92% vs. CPI EUA 2,5%). Kd US$ pré-imposto 6,8% (RI Petrobras, 2T26) → Kd BRL pós-imposto (34%) 6,15%. D/(D+E) 17,8% (dívida financeira ex-arrendamento R$133,7 bi / Market Cap R$618,7 bi) → <b>WACC = 12,3%</b>, idêntico nos 3 cenários</li>
+    <li><b>g</b> = 4,5% a.a. (BRL nominal) · <b>Alíquota de IR/CSLL</b> projetada em 34% (estatutária) · <b>Receita</b> projetada como função de Produção (mboed) × Brent (US$/bbl) × Câmbio (USD/BRL), encadeada trimestre a trimestre em 2S26 e depois anualmente, calibrada pela receita consolidada real do 2T26 · <b>Margem EBITDA</b> e <b>Capex/Receita</b> — premissas por cenário, ver quadro de cenários abaixo · <b>Capital de giro</b> via prazos médios (DSO 18,7d / DIO 63,3d / DPO 57,4d, calibrados no FY2025)</li>
+  </ul>
+  <h3>Enterprise Value → Preço-Alvo (Cenário Base)</h3>
+  <div class="tablewrap"><table class="fin">
+    <tr><td>Σ VP dos FCFF explícitos (2S26E–2035E)</td><td>478.776</td></tr>
+    <tr><td>(+) VP do Valor Terminal (Gordon)</td><td>377.122</td></tr>
+    <tr class="total"><td>Enterprise Value</td><td>855.899</td></tr>
+    <tr><td>(−) Dívida Líquida total (incl. arrendamentos IFRS16)</td><td class="neg">-312.602</td></tr>
+    <tr><td>(−) Participação de Não Controladores</td><td class="neg">-904</td></tr>
+    <tr class="total"><td>Equity Value</td><td>542.393</td></tr>
+    <tr class="total"><td>PREÇO-ALVO PETR4/PETR3</td><td>R$ 42,08</td></tr>
+  </table></div>
+  <h3>Cruzamento do Valor Terminal — Gordon × Múltiplo de Saída</h3>
+  <div class="grid-2">
+    <div class="card"><h4 style="margin-top:0;">Gordon Growth (principal)</h4><p class="num" style="font-size:22px;font-weight:600;margin-bottom:4px;">R$ 1.001.766 mi</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">FCFF35×(1+g)/(WACC−g) — representa 44,1% do EV no Cenário Base</p></div>
+    <div class="card"><h4 style="margin-top:0;">Múltiplo de Saída (cross-check)</h4><p class="num" style="font-size:22px;font-weight:600;margin-bottom:4px;">4,5x EBITDA35</p><p style="font-size:13px;color:var(--ink-muted);margin-bottom:0;">Mediana de peers B3 (PRIO3/VBBR3) — usado para validar a razoabilidade do múltiplo implícito no Gordon</p></div>
+  </div>
+  <h3>Cenários</h3>
+  <div class="scenario-cards">
+    <div class="scenario"><div class="tt">Conservador</div><div class="px">R$ 13,91</div><div class="up neg">-71,0% downside</div><div class="assump">WACC <b>12,3%</b> · g <b>4,5%</b><br>Brent 4T26E US$75 → terminal US$62/bbl · Produção declina para 3,00 mboed em 2035 · Margem EBITDA cai a 38% · Capex/Receita 22%</div></div>
+    <div class="scenario base"><div class="tt">Base</div><div class="px">R$ 42,08</div><div class="up neg">-12,3% downside</div><div class="assump">WACC <b>12,3%</b> · g <b>4,5%</b><br>Brent 4T26E US$85 → US$74 em 2027 (curva EIA) → terminal US$70/bbl · Produção estabiliza em 3,55-3,65 mboed · Margem EBITDA 44-45% · Capex/Receita 20%</div></div>
+    <div class="scenario"><div class="tt">Otimista</div><div class="px">R$ 66,40</div><div class="up pos">+38,3% upside</div><div class="assump">WACC <b>12,3%</b> · g <b>4,5%</b><br>Prêmio geopolítico persiste mais: Brent 2027E US$85 → terminal US$78/bbl · Produção atinge 3,95 mboed · Margem EBITDA 47-48% · Capex/Receita 19% (maior eficiência)</div></div>
+  </div>
+  <p class="methodnote">Metodologia: o mesmo WACC (12,3%, CAPM do Cenário Base) e o mesmo g (4,5%) são usados nos 3 cenários — apenas premissas operacionais (Brent, produção, margem, capex) variam. Isso evita somar o efeito da taxa de desconto ao efeito operacional, isolando a sensibilidade a WACC/g exclusivamente na matriz da Seção 09. A amplitude de 4,8x entre Conservador e Otimista reflete majoritariamente a alavancagem operacional e financeira da Petrobras: a Dívida Líquida (R$312,6 bi) é grande em relação ao Enterprise Value do Cenário Conservador, amplificando qualquer variação de EV no Equity Value — um efeito matemático esperado, não um artefato do modelo.</p>
+</section>
+
+<section class="block" id="s18">
+  <div class="block-head"><span class="block-num">11</span><h2>Conclusão</h2></div>
+  <p><b>Recomendação: NEUTRO / REDUZIR EM FORÇA RELATIVA</b>, com preço justo de R$42,08/ação no Cenário Base — 12,3% abaixo da cotação atual de R$48,00. Esta não é uma tese sobre a qualidade do ativo: a Petrobras tem um dos custos de extração mais baixos do mundo (pré-sal a US$4,19-4,45/boe), alavancagem controlada (1,14x Dívida Líq./EBITDA), política de dividendos generosa e um plano de investimentos disciplinado. É, sim, uma tese sobre <b>preço vs. valor</b> (Buffett): a cotação atual embute, em grande medida, o choque geopolítico Irã-EUA de setembro/2026, que elevou o Brent para US$97-109/bbl — um nível que a própria curva futura da EIA (STEO) projeta normalizar para US$70-75/bbl já em 2027. Nos 3 cenários, o preço-alvo só supera a cotação atual no caso Otimista (que assume persistência do prêmio geopolítico); no caso Base e, com muito mais força, no Conservador, o valor justo fica abaixo do preço de mercado.</p>
+  <p>O ROIC-WACC spread do Cenário Base é positivo mas marginal (+0,5 p.p.), o que caracteriza uma empresa que remunera o custo de capital sem grande margem de segurança operacional no preço atual — o tipo de sinal que, na lente de Howard Marks, distingue "comprar um bom ativo" de "comprar um bom ativo a um bom preço". <b>Horizonte de tese: 3-5 anos</b>, com gatilho de reavaliação em qualquer dos dois sentidos: (i) para cima, se o Brent sustentar acima de US$85/bbl além de 2027 (cenário Otimista se torna mais provável) ou se houver desconto do prêmio de governança via melhoria de transparência na política de preços; (ii) para baixo, se houver nova rodada de subsídios/controle de preços que descole a realização doméstica do Brent internacional.</p>
+</section>
+
+<section class="block" id="s20">
+  <div class="block-head"><span class="block-num">12</span><h2>Disclaimer</h2></div>
+  <div class="disclaimer">Esta análise não constitui recomendação de investimento. Material de estudo/apoio à decisão, com premissas e fontes declaradas ao longo do documento e no arquivo Excel do modelo (PETR4_Valuation_Model.xlsx). Antes de investir, consulte um profissional habilitado.</div>
+</section>
+
+</main>
+</div>
+</div>
+
+<div class="wrap"><div class="foot">Fontes principais: BRAPI (API, 21/09/2026) · RI Petrobras — Central de Resultados, Demonstrações Financeiras 4T25/2T26, Relatório de Produção e Vendas 2T26, Plano de Negócios 2026-2030 (28/11/2025) · EIA STEO (set/2026) · Boletim Focus/BCB (21/09/2026) · SEC 6-K/6-K/A (2026) · Status Invest, GuruFocus, TIKR, Multiples.vc (peers, jul-set/2026). Modelo completo com fórmulas vivas, 3 cenários e histórico 2021-2T26 em PETR4_Valuation_Model.xlsx.</div></div>
+
+</body></html>
